@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Discgolfriend</string>
+    <string name="title_home">Kierros</string>
+    <string name="title_dashboard">Historia</string>
+    <string name="title_notifications">Tilastot</string>
+    <string name="home_player">Lisää pelaaja</string>
+    <string name="home_newplayer">Uusi pelaaja</string>
+    <string name="home_start">Aloita kierros</string>
+    <string name="history_player">Pelaaja</string>
+    <string name="history_course">Rata</string>
+    <string name="button_prev">Edellinen</string>
+    <string name="button_next">Seuraava</string>
+    <string name="button_back_home">Uusi kierros</string>
+    <string name="round_holenumber">Väylä </string>
+    <string name="round_holelength">Pituus: </string>
+    <string name="round_holepar">Par: </string>
+    <string name="round_holeavg">Keskiarvo: </string>
+    <string name="stats_players">Pelaajat </string>
+    <string name="stats_courses">Radat </string>
+    <string name="player_stats_rounds">Kierroksia: </string>
+    <string name="player_stats_birdies">Birdieitä: </string>
+    <string name="player_stats_aces">Aceja:  </string>
+    <string name="player_stats_bogeys">Bogeja:  </string>
+    <string name="player_stats_eagles">Eagleja: </string>
+    <string name="player_stats_pars">Pareja: </string>
+    <string name="new_player_hint">Anna pelaajan nimi </string>
+</resources>

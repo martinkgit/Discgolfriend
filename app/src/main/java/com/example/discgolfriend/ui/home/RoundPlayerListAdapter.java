@@ -47,13 +47,16 @@ public class RoundPlayerListAdapter extends RecyclerView.Adapter<RoundPlayerList
 
         int pos = position;
         score = playedHole.par;
-        System.out.println("Score: " + score);
+        int parValue = score;
         holder.itemView.setTag(position);
 
         holder.textView.setText(localDataset[position]);
 
         holder.score.setText(String.valueOf(score));
         RoundFragment.setScore(localDataset[pos], score, playedHole.holeNumber);
+
+        int roundScore = RoundFragment.getScore(localDataset[pos]);
+        holder.roundScore.setText(Integer.toString(roundScore));
 
         holder.buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +65,8 @@ public class RoundPlayerListAdapter extends RecyclerView.Adapter<RoundPlayerList
                 int newScore = Integer.parseInt(s)+1;
                 holder.score.setText(String.valueOf(newScore));
                 RoundFragment.setScore(localDataset[pos], newScore, playedHole.holeNumber);
+                int roundScore = RoundFragment.getScore(localDataset[pos]);
+                holder.roundScore.setText(Integer.toString(roundScore));
             }
         });
         holder.buttonDown.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +76,8 @@ public class RoundPlayerListAdapter extends RecyclerView.Adapter<RoundPlayerList
                 int newScore = Integer.parseInt(s)-1;
                 holder.score.setText(String.valueOf(newScore));
                 RoundFragment.setScore(localDataset[pos], newScore, playedHole.holeNumber);
+                int roundScore = RoundFragment.getScore(localDataset[pos]);
+                holder.roundScore.setText(Integer.toString(roundScore));
             }
         });
 
@@ -87,6 +94,7 @@ public class RoundPlayerListAdapter extends RecyclerView.Adapter<RoundPlayerList
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView textView;
         public TextView score;
+        public TextView roundScore;
         public FloatingActionButton buttonDown;
         public FloatingActionButton buttonUp;
 
@@ -94,6 +102,7 @@ public class RoundPlayerListAdapter extends RecyclerView.Adapter<RoundPlayerList
             super(itemView);
 
             score = (TextView) itemView.findViewById(R.id.tvRoundPlayerScore);
+            roundScore = (TextView) itemView.findViewById(R.id.tvRoundPlayerWholeScore);
             textView = (TextView) itemView.findViewById(R.id.tvRoundPlayer);
             buttonDown =  itemView.findViewById(R.id.btnScoreDown);
             buttonUp = itemView.findViewById(R.id.btnScoreUp);

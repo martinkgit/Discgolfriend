@@ -13,6 +13,7 @@ import com.example.discgolfriend.Database.Entities.Hole;
 import com.example.discgolfriend.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -27,9 +28,11 @@ public class ResultPlayerListAdapter extends RecyclerView.Adapter<ResultPlayerLi
     String[] players;
     ArrayList<Hole> holes;
     int[] holePars;
+    int totalPar;
 
     public ResultPlayerListAdapter(HashMap<String, int[]> dataset, ArrayList<Hole> sentHoles){
      playersAndScores = dataset;
+     totalPar = 0;
      holes = sentHoles;
         players = new String[playersAndScores.size()];
         int i = 0;
@@ -39,6 +42,7 @@ public class ResultPlayerListAdapter extends RecyclerView.Adapter<ResultPlayerLi
       holePars = new int[holes.size()];
         for(int j = 0; j< holes.size(); j++){
             holePars[j] = holes.get(j).par;
+
         }
     }
 
@@ -59,6 +63,9 @@ public class ResultPlayerListAdapter extends RecyclerView.Adapter<ResultPlayerLi
         holder.itemView.setTag(position);
         holder.textView.setText(players[position]);
         int[] dataset = playersAndScores.get(players[position]);
+        int playerResult = Arrays.stream(dataset).sum();
+        totalPar = Arrays.stream(holePars).sum();
+        holder.finalScore.setText(Integer.toString(playerResult-totalPar));
         ResultHoleListAdapter listAdapter = new ResultHoleListAdapter(dataset, holePars);
         holder.rvHoleScores.setAdapter(listAdapter);
 
@@ -77,13 +84,14 @@ public class ResultPlayerListAdapter extends RecyclerView.Adapter<ResultPlayerLi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView textView;
+        public TextView finalScore;
         public RecyclerView rvHoleScores;
 
 
         public ViewHolder(View itemView){
             super(itemView);
 
-
+            finalScore = (TextView) itemView.findViewById(R.id.tvResultFinalScore);
             textView = (TextView) itemView.findViewById(R.id.tvResultPlayer);
             rvHoleScores = itemView.findViewById(R.id.rvPlayerHoleResults);
         }

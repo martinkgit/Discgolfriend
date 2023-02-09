@@ -53,6 +53,7 @@ public class RoundFragment extends Fragment {
     int holeAmount;
     DecimalFormat df;
     RoundPlayerListAdapter rvItemListAdapter;
+    static ArrayList<Hole> holes;
 
 
 
@@ -69,7 +70,7 @@ public class RoundFragment extends Fragment {
 
         courseName = getArguments().getString("courseName");
         holeAmount = MainActivity.database.courseDao().findCourseByName(courseName).holes;
-        ArrayList<Hole> holes = (ArrayList)MainActivity.database.holeDao().findHoleByCourse(courseName);
+        holes = (ArrayList)MainActivity.database.holeDao().findHoleByCourse(courseName);
         hole = holes.get(currentHole-1);
         RecyclerView rvItemList = view.findViewById(R.id.rvRoundPlayers);
         holeNbm.setText(getString(R.string.round_holenumber)+" "+hole.holeNumber);
@@ -112,12 +113,9 @@ public class RoundFragment extends Fragment {
             public void onClick(View view) {
                 if(holes.size()>currentHole) {
                     hole = holes.get(currentHole++);
-                    System.out.println("Currenthole: " + currentHole);
-                    System.out.println("Hole: " + hole.holeNumber);
                     holeNbm.setText(getString(R.string.round_holenumber)+" " + hole.holeNumber);
                     holeLength.setText(getString(R.string.round_holelength) +" "+ hole.length+"m");
                     holePar.setText(getString(R.string.round_holepar) +" "+ hole.par);
-                    System.out.println("Avg par: "+hole.avgPar);
                     avgPar.setText(getString(R.string.round_holeavg)+" " + df.format(hole.avgPar));
                     RoundPlayerListAdapter.newHole(hole);
                     rvItemListAdapter.notifyDataSetChanged();
@@ -147,8 +145,6 @@ public class RoundFragment extends Fragment {
                 if(currentHole>1) {
                     currentHole--;
                     hole = holes.get(currentHole-1);
-                    System.out.println("Currenthole: " + currentHole);
-                    System.out.println("Hole: " + hole.holeNumber);
                     holeNbm.setText(getString(R.string.round_holenumber) + hole.holeNumber);
                     holeLength.setText(getString(R.string.round_holelength) + hole.length+"m");
                     holePar.setText(getString(R.string.round_holepar) +" "+ hole.par);
@@ -175,6 +171,23 @@ public class RoundFragment extends Fragment {
 
         playerScores.replace(player, scores);
 
+    }
+
+    public static int getScore(String player){
+
+        System.out.println("Current hole: " + currentHole);
+        int parScore = 0;
+        int playerScore = 0;
+        int[] scores = playerScores.get(player);
+        for(int j = 0; j<currentHole; j++){
+            parScore = parScore + holes.get(j).par;
+            System.out.println("ParScore: " + parScore);
+            playerScore = playerScore + scores[j];
+            System.out.println("PlayerScore: " + playerScore);
+        }
+        int result = playerScore-parScore;
+        System.out.println("Score: " +result);
+        return result;
     }
 
     public void endRound(View view){
